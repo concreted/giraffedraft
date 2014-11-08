@@ -1,0 +1,29 @@
+.from-right {
+  left: -400px !important;
+}
+
+.from-left {
+  right: 100% !important;
+}
+
+.gd-sidebar {
+  background-color: #f7f7f7;
+  font-size: 200px;
+  color: 'white',
+  position: fixed !important;
+  top: 0 !important;
+  //width: 400px;
+  //transition: 0.2 s !important;
+  z-index: 100000;
+  display: none;
+}
+
+.gd-sidebar.from-right.is-visible {
+    left: 0px !important;
+}
+
+.gd-sidebar.from-left.is-visible {
+    right: 0% !important;
+    display: inline !important;
+    transition: 1s !important;
+}

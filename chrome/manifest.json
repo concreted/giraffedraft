@@ -6,14 +6,20 @@
       "default_title": "That's the tool tip",
       "default_popup": "popup.html"
     },
+    "permissions": [
+      "https://*.fantasysports.yahoo.com/*",
+      "storage"
+    ],
     "background": {
       "scripts": ["background.js"],
-      "persistent": true
+      "persistent": false
     },
     "content_scripts": [
       {
         "matches": ["http://*/*", "https://*/*"],
-        "js": ["content.js"]
+
+        "js": ["jquery.js", "content.js"]
       }
-    ]
+    ],
+    "web_accessible_resources": ["styles.css"]
 }
