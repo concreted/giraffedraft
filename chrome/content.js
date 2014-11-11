@@ -1,3 +1,5 @@
+// // Putting Angular-pageslide-directive here because chrome is being stupid
+//
 var pageslideDirective = angular.module("pageslide-directive", []);
 
 pageslideDirective.directive('pageslide', [
@@ -251,8 +253,10 @@ pageslideDirective.directive('pageslide', [
 ]);
 //==============================================================================================
 
+// ADD EVENT LISTENER FOR DOM ELEMENTS OF THE DRAFT PAGE
+
 // get the yahoo top menu bar
-var topBar = document.getElementById('yucs-top-list');
+var topBar = document.querySelector('.Col1a');
 console.log(topBar);
 
 // create an element to open the slider
@@ -291,3 +295,48 @@ document.body.appendChild(slider);
 
 angular.module('gDraft', ['pageslide-directive'])
 .controller('gDController', function($scope, $http){});
+
+var state = {};
+
+//initialize();
+
+var selectDraftResults = function() {
+  // Go to navtabs and click on Draft Results
+  document.querySelector('.NavTabs').childNodes[5].click();
+  // Click on Player by Round
+  document.querySelector('.SubNavTabs').childNodes[1].click();
+};
+
+var getPlayers = function() {
+  var players = document.getElementsByClassName('Fz-xs Ell');
+  players.forEach(function(player) {
+    state[player] = [];
+  });
+};
+
+var updateState = function() {
+  selectDraftResults();
+  // Drafted player
+  var draftedPlayer = document.querySelector('#results-by-round').querySelector('tbody').children[1].children[1].innerText;
+  // Fantasy sports player
+  var fantasyPlayer = document.querySelector('#results-by-round').querySelector('tbody').children[1].children[2].innerText;
+
+  state[fantasyPlayer].push(draftedPlayer);
+
+  console.log(state);
+};
+
+var initialize = function() {
+  // Get children of results-by-round
+  var draft = document.querySelector('#results-by-round').querySelector('tbody').children;
+  draft.forEach(function(playerNode) {
+    if (playerNode.className !== 'drkTheme') {
+      var fantasyPlayer = playerNode.children[2].innerText;
+      var draftedPlayer = playerNode.children[1].innerText;
+      state[fantasyPlayer].push(draftedPlayer);
+    }
+  });
+
+  // Set event listener to scrape the DOM
+  document.querySelector('.Col2c').addEventListener('DOMNodeInserted', updateState);
+};
