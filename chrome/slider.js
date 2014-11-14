@@ -75,14 +75,14 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
     services.getSuggestions($scope.undrafted)
       .then(function(data){
         $scope.suggestions = data;
-      })
-  }
+      });
+  };
 
   $scope.markDrafted = function(){
-    $scope.drafted.push(this.player)
-    var ind = $scope.undrafted.indexOf(this.player)
+    $scope.drafted.push(this.player);
+    var ind = $scope.undrafted.indexOf(this.player);
     $scope.undrafted.splice(ind,1);
-    for(key in this.player) {
+    for(var key in this.player) {
       if (key !== "NAME" && key !== "Player") {
         $scope.teamStats[key] += parseInt(this.player[key]);
       }
@@ -112,36 +112,5 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
     });
 
     $scope.calculate();
-  }
-
-  // var svg = d3.select("body").append("svg")
-  //   .attr("width", "1000")
-  //   .attr("height", "1000")
-  //   .attr("fill", "blue")
-  //
-
-  // update: will be called on each ng-click or ng-mouseover event.
-  // should use the
-  // $scope.update = function() {
-  //   console.log('updating');
-  //   var data = [];
-  //   console.log(Object.keys($scope.teamStats));
-  //   for (key in $scope.teamStats) {
-  //     if (key !== '$$hashKey') {
-  //       data.push($scope.teamStats[key]);
-  //     }
-  //   };
-  //
-  //   console.log(data);
-  //
-  //   var graph = svg.selectAll("rect")
-  //     .data(data, function(d) {return d;})
-  //   console.log(graph);
-  //
-  //   graph.enter().append("rect")
-  //     .attr('width', function(d) { return d; })
-  //     .attr('height', 10)
-  //     .attr('fill','blue')
-  //     .attr('y', function(d, i) { return i * 10; })
-  // }
+  };
 });
