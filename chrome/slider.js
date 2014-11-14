@@ -113,4 +113,8 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
 
     $scope.calculate();
   };
+
+  $scope.init = function() {
+    parent.postMessage({command: 'init'}, '*')
+  };
 });

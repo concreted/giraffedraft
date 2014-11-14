@@ -1,10 +1,11 @@
 console.log('listeners.js===============================');
 window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event) {
-  console.log("=======================message received!======================");
-  console.log(event.data);
+  console.log("=======================message received in iframe!======================");
+  console.log(event);
 }
 
 console.log(window);
-
-window.postMessage({}, '*');
+//console.log(parent.postMessage);
+// window.postMessage({}, '*');
+// parent.postMessage({}, '*');

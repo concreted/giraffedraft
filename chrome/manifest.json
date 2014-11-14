@@ -13,7 +13,7 @@
     "content_scripts": [
       {
         "matches": ["http://*.yahoo.com/*", "https://*.yahoo.com/*"],
-        "js": ["angular.js", "slider.js", "content.js"]
+        "js": ["angular.js", "slider.js", "content/content.js", "content/listener.js"]
       }
     ],
     "web_accessible_resources": ["app.html", "popup.html"]
