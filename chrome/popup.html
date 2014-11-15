@@ -4,39 +4,27 @@
     <LINK href="styles.css" rel="stylesheet" type="text/css">
 </head>
 <body ng-controller='gDController'>
-  <h1>Giraffe Draft</h1>
-  <button ng-click='init()'>INITIALIZE CONTENT.JS</button></button>
-  <div style='height:30%;width:300px;overflow:scroll;'>
-    Players
-    <ol>
-      <li class='undrafted' ng-repeat='player in undrafted' ng-click=markDrafted()>
-        {{player.NAME}}
-      </li>
-    </ol>
+  <div style='height:15%;width:275px;overflow:scroll;font-size:1em' ng-mouseleave="removePlayerStats()">
+    <table style ='border: 1px solid black;border-collapse: collapse;'>
+      <tr class='undrafted' ng-repeat='player in undrafted' ng-click="markDrafted()" ng-mouseenter="addPlayerStats()">
+        <td style ='border: 1px solid black;border-collapse: collapse;'>{{player.Player}}</td>
+      </tr>
+    </table>
   </div>
   <br>
   <br/>
-  <div style='overflow:scroll;width:300px;'>
-    Team Stats
-    <ol>
-      <li class='teamStats' ng-repeat='stat in teamStats'>
-        {{stat}}
-      </li>
-    </ol>
-  </div>
-  <div style='overflow:scroll;width:300px;'>
+  <!-- <div style='width:275px'>
     Suggestions
     <ol>
       <li class='suggested' ng-repeat='suggested in suggestions'>
-        {{$index}}
+        {{suggested.Player}}
       </li>
     </ol>
-  </div>
+  </div> -->
   <c3-chart id="chart" config="config"></c3-chart>
   <script src="angular.js"></script>
   <script src="bower_components/angular-c3/dist/c3-chart.js" charset='utf-8'></script>
   <script src="services/services.js"></script>
   <script src="slider.js"></script>
-  <script src="listeners.js"></script>
 </body>
 </html>
