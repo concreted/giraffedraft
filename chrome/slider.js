@@ -6,33 +6,23 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
   $scope.drafted = [];
   $scope.user = '';
   $scope.state = {};
+  $scope.lineupSize = 12;
+  $scope.normalizedTeamStats = {};
 
   $scope.leagueAverages = {
-    // "TO":
-    // "BLK":
-    // "ST":
-    // "AST":
-    // "REB":
-    // "PTS":
-    // "3PTM"
-    // "FT%":
-    // "FTA":
-    // "FTM":
-    // "FG%":
-    // "FGA":
-    // "FGM":
-
-    "MIN":48*82,
-    "3PM":7.5*82,
-    "FGM":0.5,
-    "BLK":4.8*82,
-    "STL":7.2*82,
-    "AST":21.2*82,
-    "GP":82,
-    "REB":42.1*82,
-    "FT%":0.5,
-    "PTS":99.4*82,
-    "TO":14.9*82
+    "TO": 113.58,
+    "BLK": 43.44,
+    "ST": 62.16,
+    "AST": 176.84,
+    "REB": 332.6,
+    "PTS": 1004.8,
+    "3PTM": 54.16,
+    "FT%": 0,
+    "FTA": 269.2,
+    "FTM": 219.8,
+    "FG%": 0,
+    "FGA": 768,
+    "FGM": 365
   };
 
   // corrected to match yahoo
@@ -120,7 +110,8 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
         categories: ['FGM', 'FGA',	'FG%', 'FTM',	'FTA', 'FT%', '3PTM',	'PTS',	'REB',	'AST',	'ST',	'BLK',	'TO']
       },
       y: {
-        max: 3000
+        max: 120,
+        label: "% of League Average"
       }
     },
     size: {
@@ -173,19 +164,19 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
         columns: [
           [
             'teamStats',
-            $scope.teamStats['FGM'],
-            $scope.teamStats['FGA'],
-            $scope.teamStats["FG%"],
-            $scope.teamStats['FTM'],
-            $scope.teamStats['FTA'],
-            $scope.teamStats['FT%'],
-            $scope.teamStats['3PTM'],
-            $scope.teamStats['PTS'],
-            $scope.teamStats['REB'],
-            $scope.teamStats['AST'],
-            $scope.teamStats['ST'],
-            $scope.teamStats['BLK'],
-            $scope.teamStats['TO'],
+            $scope.normalizedTeamStats['FGM'],
+            $scope.normalizedTeamStats['FGA'],
+            $scope.normalizedTeamStats["FG%"],
+            $scope.normalizedTeamStats['FTM'],
+            $scope.normalizedTeamStats['FTA'],
+            $scope.normalizedTeamStats['FT%'],
+            $scope.normalizedTeamStats['3PTM'],
+            $scope.normalizedTeamStats['PTS'],
+            $scope.normalizedTeamStats['REB'],
+            $scope.normalizedTeamStats['AST'],
+            $scope.normalizedTeamStats['ST'],
+            $scope.normalizedTeamStats['BLK'],
+            $scope.normalizedTeamStats['TO'],
           ],
         ],
       });
@@ -195,26 +186,32 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
   }
 
   $scope.addPlayerStats = function(){
-    $scope.playerStats = this.player
-    console.log(this.player)
+    $scope.playerStats = this.player;
+    console.log(this.player);
     c3Factory.get('chart').then(function(chart) {
       chart.load({
         columns: [
           [
             'playerStats',
-            $scope.playerStats['FGM'],
-            $scope.playerStats['FGA'],
-            $scope.playerStats["FG%"],
-            $scope.playerStats['FTM'],
-            $scope.playerStats['FTA'],
-            $scope.playerStats['FT%'],
-            $scope.playerStats['3PTM'],
-            $scope.playerStats['PTS'],
-            $scope.playerStats['REB'],
-            $scope.playerStats['AST'],
-            $scope.playerStats['ST'],
-            $scope.playerStats['BLK'],
-            $scope.playerStats['TO'],
+            1,
+            3,
+            3,
+            4,
+            5,
+            6,7,8,9,10,11,12,13
+            // $scope.playerStats['FGM'],
+            // $scope.playerStats['FGA'],
+            // $scope.playerStats["FG%"],
+            // $scope.playerStats['FTM'],
+            // $scope.playerStats['FTA'],
+            // $scope.playerStats['FT%'],
+            // $scope.playerStats['3PTM'],
+            // $scope.playerStats['PTS'],
+            // $scope.playerStats['REB'],
+            // $scope.playerStats['AST'],
+            // $scope.playerStats['ST'],
+            // $scope.playerStats['BLK'],
+            // $scope.playerStats['TO'],
           ]
         ],
       });
@@ -263,6 +260,14 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
 
   $scope.updateState = function() {
 
+  };
+
+  $scope.normalize = function() {
+    for (var category in $scope.teamStats) {
+      $scope.normalizedTeamStats[category] = ($scope.teamStats[category] * 100) / ($scope.leagueAverages[category] * $scope.lineupSize);
+    }
+    $scope.normalizedTeamStats['FT%'] = $scope.teamStats['FTM'] * 100 / $scope.teamStats['FTA'];
+    $scope.normalizedTeamStats['FG%'] = $scope.teamStats['FGM'] * 100 / $scope.teamStats['FGA'];
   };
 
   // refactor this to a service
@@ -320,24 +325,26 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
       // update angular bindings
       $scope.$apply();
 
+      $scope.normalize();
+
       c3Factory.get('chart').then(function(chart) {
         chart.load({
           columns: [
             [
               'teamStats',
-              $scope.teamStats['FGM'],
-              $scope.teamStats['FGA'],
-              $scope.teamStats["FG%"],
-              $scope.teamStats['FTM'],
-              $scope.teamStats['FTA'],
-              $scope.teamStats['FT%'],
-              $scope.teamStats['3PTM'],
-              $scope.teamStats['PTS'],
-              $scope.teamStats['REB'],
-              $scope.teamStats['AST'],
-              $scope.teamStats['ST'],
-              $scope.teamStats['BLK'],
-              $scope.teamStats['TO'],
+              $scope.normalizedTeamStats['FGM'],
+              $scope.normalizedTeamStats['FGA'],
+              $scope.normalizedTeamStats["FG%"],
+              $scope.normalizedTeamStats['FTM'],
+              $scope.normalizedTeamStats['FTA'],
+              $scope.normalizedTeamStats['FT%'],
+              $scope.normalizedTeamStats['3PTM'],
+              $scope.normalizedTeamStats['PTS'],
+              $scope.normalizedTeamStats['REB'],
+              $scope.normalizedTeamStats['AST'],
+              $scope.normalizedTeamStats['ST'],
+              $scope.normalizedTeamStats['BLK'],
+              $scope.normalizedTeamStats['TO'],
             ],
           ],
         });
