@@ -13,6 +13,7 @@
   </div>
   <br>
   <br/>
+
   <!-- <div style='width:275px'>
     Suggestions
     <ol>
@@ -22,6 +23,11 @@
     </ol>
   </div> -->
   <c3-chart id="chart" config="config"></c3-chart>
+  <br>
+  <ol>
+    <li ng-repeat="(name, age) in state">{{name}}: {{age}}</li>
+  </ol>
+
   <script src="angular.js"></script>
   <script src="bower_components/angular-c3/dist/c3-chart.js" charset='utf-8'></script>
   <script src="services/services.js"></script>

@@ -153,10 +153,10 @@ var initialize = function() {
       state[fantasyPlayer][draftedPlayer] = stats;
     }
   });
-  console.log(state);
+  //console.log(state);
 
   // Set event listener to scrape the DOM
-  document.querySelector('.Col2c').addEventListener('DOMNodeInserted', updateState);
+  //document.querySelector('.Col2c').addEventListener('DOMNodeInserted', updateState);
 };
 
 // from smack talk
@@ -174,7 +174,7 @@ function receiveMessage(event) {
   if (event.data.command === 'sync') {
     initialize();
     console.log('sending state');
-    console.log(JSON.stringify(state));
+    //console.log(JSON.stringify(state));
     sendUser();
     sendState();
   }

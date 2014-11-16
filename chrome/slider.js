@@ -265,6 +265,10 @@ angular.module('gDPopup', ['gDraft.services', 'angular-c3'])
 
   };
 
+  // refactor this to a service
+
+  // service has a callback list
+  // and this.onMessage function to store a callback
   window.addEventListener("message", receiveMessage, false);
 
   function receiveMessage(event) {
