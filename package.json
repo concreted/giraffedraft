@@ -1,0 +1,26 @@
+{
+  "name": "giraffedraft",
+  "version": "1.0.0",
+  "description": "[![Stories in Ready](https://badge.waffle.io/golden-warning/giraffedraft.png?label=ready&title=Ready)](https://waffle.io/golden-warning/giraffedraft) giraffedraft ============",
+  "main": "chrome/content.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/concreted/giraffedraft.git"
+  },
+  "author": "golden-warning",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/concreted/giraffedraft/issues"
+  },
+  "homepage": "https://github.com/concreted/giraffedraft",
+  "dependencies": {
+    "gulp-concat": "^2.4.2",
+    "gulp-jshint": "^1.9.0"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0"
+  }
+}
