@@ -1,7 +1,7 @@
 // insert arrive into page html
-var arrive = require('./lib/arrive-2.0.0.min.js');
 var inject = require('./content/inject');
 var ypage = require('./content/yahoopage');
+var watch = require('./content/watch');
 
 var undrafted = [];
 var suggestions = [];
@@ -203,8 +203,8 @@ function sync() {
     // set a listener to watch the draft.
     watchDraftAndUpdateState();
     // set a listener on ys-queue-table to scrape queue whenever it updates.
-    // use actionOnLoad because every time queue is changed, ys-queue-table reloads.
-    actionOnLoad(scrapeQueue, '.ys-queue-table');
+    // use watch.onLoad because every time queue is changed, ys-queue-table reloads.
+    watch.onLoad(scrapeQueue, '.ys-queue-table');
   });
  //console.log('****************** sending state *******************');
 }
@@ -232,7 +232,7 @@ if (ypage.onDraft()) {
   //console.log('in a draft');
   openSidebar();
   // ys-order-list-container seems to load last/late enough that everything else is loaded.
-  actionOnLoad(sync, '#ys-order-list-container');
+  watch.onLoad(sync, '#ys-order-list-container');
 }
 else {
   inject.sidebar('popup.html', true);
@@ -241,90 +241,9 @@ else {
 
 inject.sidebarButton();
 
-// var target = document.querySelector('body');
-
-// var observer = new MutationObserver(function (mutations) {
-//     // Whether you iterate over mutations..
-//     mutations.forEach(function (mutation) {
-//       // or use all mutation records is entirely up to you
-//       var entry = {
-//         mutation: mutation,
-//         el: mutation.target,
-//         value: mutation.target.textContent,
-//         oldValue: mutation.oldValue
-//       };
-//       console.log('Recording mutation:', entry);
-//     });
-//   });
-//
-// var config = { attributes: true, childList: true, characterData: true };
-//
-// observer.observe(target, config);
-
-
-// Setup sync on draft pick. Should only update new draft picks, not do
-// full sync.
-
-// This can't be in a function for some reason. If in a function, the
-// event listener doesn't register???
-// actionOnLoad(function() {
-//   actionOnChange(function() {
-//     updateState();
-//     console.log('booga');
-//   },'#ys-order-list-container');
-// }, '#ys-order-list-container');
-
 function watchDraftAndUpdateState() {
-  actionOnChange(function() {
+  watch.onChange(function() {
     updateState();
     //console.log('booga');
   },'#ys-order-list-container');
-}
-
-// sets a mutation observer on an element.
-// if element doesn't exist, waits for it to be loaded with
-// actionOnLoad.
-
-// Need to test when draft is first starting.
-// This works when joining a draft in progress, but NOT
-// when draft first starts
-function actionOnChange(action, selector, parent) {
-  function watch() {
-    var observer = new MutationObserver(function(mutations) {
-      //console.log(mutations);
-      action();
-    });
-    var config = { attributes: true, childList: true, characterData: true, subtree: true };
-    observer.observe(target, config);
-    //console.log(observer);
-  }
-
-  var target = document.querySelector(selector);
-
-  if (!target) {
-    actionOnLoad(watch, selector, parent);
-  }
-  else {
-    watch();
-  }
-}
-
-// actionOnLoad: uses arrive.js to watch for arrival of DOM element
-// at selector, and calls action() when it arrives.
-// To fix: Should check for existence of
-function actionOnLoad(action, selector, parent) {
-  if (parent) {
-    document.querySelector(parent).arrive(selector, function() {
-      //console.log(this);
-      action();
-      //document.unbindArrive(selector);
-    });
-  }
-  else {
-    document.arrive(selector, function() {
-      //console.log(this);
-      action();
-      //document.unbindArrive(selector);
-    });
-  }
 }

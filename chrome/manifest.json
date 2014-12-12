@@ -13,7 +13,7 @@
     "content_scripts": [
       {
         "matches": ["http://*.yahoo.com/*"],
-        "js": ["lib/angular.js", "lib/arrive-2.0.0.min.js", "bundle.js"],
+        "js": ["lib/angular.js", "lib/arrive-2.0.0.min.js", "dist/content.js"],
         "css": ["styles/content-style.css"]
       }
     ],
