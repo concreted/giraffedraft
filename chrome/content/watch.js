@@ -1,5 +1,10 @@
 var arrive = require('../lib/arrive-2.0.0.min.js');
 
+module.exports = {
+  onChange: onChange,
+  onLoad: onLoad
+};
+
 function createMutationObserver(target, action) {
   var observer = new MutationObserver(function(mutations) {
     action();
@@ -42,7 +47,3 @@ function onLoad(action, selector, parent) {
 // sets a mutation observer on an element.
 // if element doesn't exist, waits for it to be loaded with
 // watch.onLoad.
-module.exports = {
-  onChange: onChange,
-  onLoad: onLoad
-};
